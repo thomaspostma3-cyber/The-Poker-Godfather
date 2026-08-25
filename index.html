@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Poker Godfather</title>
+    <title>The Poker Godfather - Ultimate Empire</title>
     <style>
         :root {
-            --bg-dark: #121212;
-            --card-bg: #1e1e1e;
+            --bg-dark: #0d0d0d;
+            --table-green: #0d3b1e;
             --gold: #d4af37;
             --gold-hover: #f3c643;
-            --text-light: #e0e0e0;
-            --accent-red: #8b0000;
+            --text-light: #f0f0f0;
+            --card-red: #cc0000;
         }
 
         body {
@@ -19,7 +19,7 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -29,105 +29,155 @@
             color: var(--gold);
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
             text-align: center;
+            margin: 8px 0;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
-            background: var(--card-bg);
+            max-width: 650px;
+            background: #181818;
             border: 2px solid var(--gold);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.8);
-            margin-bottom: 20px;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.9);
+            box-sizing: border-box;
+        }
+
+        /* Navigatie tabs */
+        .nav-tabs {
+            display: flex;
+            justify-content: space-around;
+            background: #222;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            border: 1px solid #444;
+        }
+
+        .nav-tab {
+            background: none;
+            border: none;
+            color: #aaa;
+            padding: 8px 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            box-shadow: none;
+        }
+
+        .nav-tab.active {
+            color: var(--gold);
+            border-bottom: 2px solid var(--gold);
         }
 
         .header-stats {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            font-size: 0.9rem;
             font-weight: bold;
             border-bottom: 1px solid #444;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .stat-item {
             color: var(--gold);
         }
 
-        /* Stadskaart Scherm */
-        .map-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
+        .screen {
+            display: none;
         }
 
-        .level-card {
-            background: #2a2a2a;
-            border: 1px solid #444;
-            padding: 15px;
+        .screen.active {
+            display: block;
+        }
+
+        /* City & Mission Map */
+        .city-header {
+            text-align: center;
+            background: #222;
+            padding: 8px;
             border-radius: 6px;
+            margin-bottom: 10px;
+            border: 1px solid var(--gold);
+        }
+
+        .map-grid, .shop-grid, .business-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .level-card, .shop-card, .business-card {
+            background: #242424;
+            border: 1px solid #444;
+            padding: 12px;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: 0.3s;
         }
 
-        .level-card.unlocked {
-            border-color: var(--gold);
-            cursor: pointer;
-        }
+        .level-card.unlocked { border-color: var(--gold); }
+        .level-card.locked { opacity: 0.4; }
+        .tournament-card { background: linear-gradient(135deg, #3a2200, #181818); border: 2px dashed var(--gold); }
 
-        .level-card.unlocked:hover {
-            background: #333;
-        }
-
-        .level-card.locked {
-            opacity: 0.5;
-            filter: grayscale(1);
-        }
-
-        /* Gevecht Scherm */
-        #game-screen {
-            display: none;
+        /* Poker Table */
+        .poker-table {
+            background: var(--table-green);
+            border: 6px solid #3a2200;
+            border-radius: 90px;
+            padding: 15px 10px;
+            margin: 10px 0;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
             text-align: center;
         }
 
-        .duel-info {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
+        .section-title {
+            font-size: 0.75rem;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
         }
 
-        .cards-container {
+        .cards-row {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 6px;
+            margin: 5px 0 10px 0;
+            min-height: 70px;
         }
 
-        .mafia-card {
-            width: 90px;
-            height: 130px;
-            background: #252525;
-            border: 2px solid var(--gold);
-            border-radius: 8px;
+        .poker-card {
+            width: 45px;
+            height: 68px;
+            background: #fff;
+            color: #000;
+            border-radius: 5px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-size: 1.1rem;
+            justify-content: space-between;
+            padding: 3px;
             font-weight: bold;
-            transition: transform 0.2s, background 0.2s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            font-size: 0.85rem;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+            border: 1px solid #ccc;
         }
 
-        .mafia-card:hover {
-            transform: translateY(-5px);
-            background: #333;
+        .poker-card.red { color: var(--card-red); }
+        .card-top { align-self: flex-start; line-height: 1; }
+        .card-center { align-self: center; font-size: 1.1rem; line-height: 1; }
+        .card-bottom { align-self: flex-end; line-height: 1; transform: rotate(180deg); }
+
+        .hand-result {
+            font-size: 0.9rem;
+            color: var(--gold);
+            font-weight: bold;
+            margin: 3px 0;
+            min-height: 18px;
         }
 
         /* Knoppen */
@@ -135,212 +185,448 @@
             background-color: var(--gold);
             color: #000;
             border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
+            padding: 8px 14px;
+            font-size: 0.85rem;
             font-weight: bold;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.2s;
             text-transform: uppercase;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.3);
         }
 
-        button:hover {
-            background-color: var(--gold-hover);
+        button:hover { background-color: var(--gold-hover); }
+        button:disabled { background-color: #555; color: #888; cursor: not-allowed; box-shadow: none; }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
         }
 
-        .monetization-box {
-            background: #181818;
-            border: 1px dashed var(--gold);
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .monetization-box h3 {
-            margin-top: 0;
-            font-size: 1rem;
-            color: var(--gold);
-        }
-
-        .btn-ad {
-            background-color: #2e7d32;
-            color: #fff;
-            margin-top: 5px;
-        }
-        .btn-ad:hover {
-            background-color: #388e3c;
-        }
-
-        .back-btn {
-            background-color: #444;
-            color: #fff;
-            margin-top: 15px;
-        }
-        .back-btn:hover {
-            background-color: #555;
-        }
+        .secondary-btn { background-color: #333; color: #fff; }
 
         #battle-log {
-            margin-top: 15px;
+            margin-top: 8px;
             font-style: italic;
-            color: #bbb;
-            min-height: 40px;
+            color: #ccc;
+            font-size: 0.85rem;
+            text-align: center;
+            min-height: 30px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Algemene Statusbalk -->
+        <!-- Statusbalk -->
         <div class="header-stats">
-            <div>Family: <span class="stat-item">The Corleone's</span></div>
+            <div>Stad: <span id="city-display" class="stat-item">Chicago</span></div>
             <div>Cash: $<span id="cash-display" class="stat-item">500</span></div>
+            <div>Cashflow: $<span id="income-display" class="stat-item">0</span>/min</div>
+            <div>Reputatie: <span id="rep-display" class="stat-item">10</span> ⭐</div>
         </div>
 
-        <!-- SCHERM 1: STADSKAART (LEVELS) -->
-        <div id="map-screen">
-            <h1>The Poker Godfather</h1>
-            <p style="text-align: center;">Neem wijk voor wijk over aan de poker- en maffiatafel.</p>
-            
-            <div class="map-grid">
-                <div class="level-card unlocked" onclick="startLevel(1, 'Little Italy Saloon', 100, 50)">
-                    <div>
-                        <strong>1. Little Italy Saloon</strong>
-                        <div style="font-size: 0.85rem; color: #aaa;">Inkomsten: $50 / week</div>
-                    </div>
-                    <button>Overnemen</button>
-                </div>
+        <!-- Menu Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchScreen('map-screen', this)">Milities & Stad</button>
+            <button class="nav-tab" onclick="switchScreen('shop-screen', this)">Tailor (Pakken)</button>
+            <button class="nav-tab" onclick="switchScreen('business-screen', this)">Imperium (Cashflow)</button>
+        </div>
 
-                <div class="level-card locked" id="level-2-card">
-                    <div>
-                        <strong>2. The Docks Poker Club</strong>
-                        <div style="font-size: 0.85rem; color: #aaa;">Inkomsten: $150 / week</div>
-                    </div>
-                    <span>🔒 Voltooi Wijk 1</span>
-                </div>
-
-                <div class="level-card locked" id="level-3-card">
-                    <div>
-                        <strong>3. Downtown Casino Royale</strong>
-                        <div style="font-size: 0.85rem; color: #aaa;">Inkomsten: $500 / week</div>
-                    </div>
-                    <span>🔒 Voltooi Wijk 2</span>
-                </div>
+        <!-- SCHERM 1: MISSIE KAART / STAD -->
+        <div id="map-screen" class="screen active">
+            <div class="city-header">
+                <h2 id="city-title" style="margin:0; font-size: 1.1rem;">Chicago (Actie 1)</h2>
+                <div style="font-size: 0.75rem; color: #aaa; margin-top: 2px;" id="city-desc">Versla rivalen en win het stads-toernooi!</div>
             </div>
+            
+            <div class="map-grid" id="missions-container"></div>
 
-            <!-- JOUW VERDIENMODEL (Monetization UI) -->
-            <div class="monetization-box">
-                <h3>💰 Zwarte Markt / Bank</h3>
-                <p style="font-size: 0.9rem; margin-bottom: 10px;">Blut of extra cash nodig om de tafels te domineren?</p>
-                <button onclick="buyCash(500)">Koop $500 Cash (€0,99)</button>
-                <br><br>
-                <button class="btn-ad" onclick="watchAd()">Bekijk Reclame voor +$100 Lening</button>
+            <div style="margin-top: 15px; text-align: center;">
+                <button class="secondary-btn" onclick="travelToNextCity()" id="travel-btn" style="display:none;">Reis naar Volgende Stad ✈️</button>
             </div>
         </div>
 
-        <!-- SCHERM 2: GEVECHT / POKER DUEL -->
-        <div id="game-screen">
-            <h2 id="current-location-title">Gevecht</h2>
-            <div class="duel-info" id="duel-status">Versla de lokale baas aan de pokertafel!</div>
-            
-            <div id="battle-log">Kies je inzet...</div>
+        <!-- SCHERM 2: TAILOR (PAKKEN & HOEDEN) -->
+        <div id="shop-screen" class="screen">
+            <h2>Maffia Tailor</h2>
+            <p style="font-size:0.8rem; color:#aaa; text-align:center;">Koop stijlvolle pakken en hoeden voor aanzien en reputatie!</p>
+            <div class="shop-grid" id="shop-container"></div>
+        </div>
 
-            <div class="cards-container" id="player-cards">
-                <!-- Wordt dynamisch gevuld via JavaScript -->
+        <!-- SCHERM 3: IMPERIUM (CASHFLOW BEDRIJVEN) -->
+        <div id="business-screen" class="screen">
+            <h2>Imperium & Cashflow</h2>
+            <p style="font-size:0.8rem; color:#aaa; text-align:center;">Koop panden om automatisch geld binnen te harken elke minuut.</p>
+            <div class="business-grid" id="business-container"></div>
+        </div>
+
+        <!-- SCHERM 4: POKER TAFEL -->
+        <div id="game-screen" class="screen">
+            <h2 id="table-title" style="font-size: 1.1rem;">Pokertafel</h2>
+            
+            <div class="poker-table">
+                <div class="section-title" id="opponent-title">Tegenstander</div>
+                <div class="cards-row" id="dealer-cards"></div>
+                <div class="hand-result" id="dealer-hand-name">Kaarten schudden...</div>
+
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 8px 0;">
+
+                <div class="section-title">Jouw Hand</div>
+                <div class="cards-row" id="player-cards"></div>
+                <div class="hand-result" id="player-hand-name">-</div>
             </div>
 
-            <button class="back-btn" onclick="returnToMap()">Terug naar Stadskaart</button>
+            <div id="battle-log">Zet in en speel je hand!</div>
+
+            <div class="action-buttons">
+                <button id="deal-btn" onclick="resolvePokerMatch()">Speel Hand</button>
+                <button class="secondary-btn" id="back-btn" onclick="switchScreen('map-screen', document.querySelectorAll('.nav-tab')[0])" style="display:none;">Terug naar Stad</button>
+            </div>
         </div>
     </div>
 
     <script>
         let cash = 500;
-        let currentLevelUnlocked = 1;
-        let activeLevelData = null;
+        let reputation = 10;
+        let currentCityIndex = 0;
+        let missionProgress = [0, 0];
+        let activeMission = null;
+
+        // Winkel items (Pakken en Hoeden)
+        const items = [
+            { id: 1, name: "Fedora Hoed", type: "Hoed", cost: 200, repBonus: 15, owned: false },
+            { id: 2, name: "Gestreept Maffia Pak", type: "Pak", cost: 600, repBonus: 50, owned: false },
+            { id: 3, name: "Zijden Zwarte Das", type: "Accessoire", cost: 1200, repBonus: 100, owned: false },
+            { id: 4, name: "The Godfather Maatpak", type: "Pak", cost: 3500, repBonus: 300, owned: false }
+        ];
+
+        // Bedrijven voor Cashflow
+        const businesses = [
+            { id: 1, name: "Illegale Slijterij", cost: 300, income: 25, owned: false },
+            { id: 2, name: "Pawn Shop (Pandjeshuis)", cost: 900, income: 80, owned: false },
+            { id: 3, name: "Ondergrondse Poker Den", cost: 2500, income: 250, owned: false },
+            { id: 4, name: "Downtown Casino", cost: 8000, income: 900, owned: false }
+        ];
+
+        const cities = [
+            {
+                name: "Chicago",
+                desc: "Thuishaven van de familie.",
+                missions: [
+                    { id: 0, title: "Versla Straatgangster Tony", buyIn: 50, reward: 130, repReward: 5 },
+                    { id: 1, title: "Versla Smokkelaar Sal", buyIn: 150, reward: 380, repReward: 12 }
+                ],
+                tournament: { title: "Chicago Stads-Toernooi (Don Moretti)", buyIn: 400, reward: 1100, repReward: 35 }
+            },
+            {
+                name: "New York",
+                desc: "Grote wolkenkrabbers en rivalen.",
+                missions: [
+                    { id: 0, title: "Versla Docks Boss Frankie", buyIn: 500, reward: 1300, repReward: 40 },
+                    { id: 1, title: "Versla Bankier Vincent", buyIn: 1000, reward: 2700, repReward: 70 }
+                ],
+                tournament: { title: "New York Kampioenschap (Boss Paulie)", buyIn: 2000, reward: 5500, repReward: 150 }
+            },
+            {
+                name: "Las Vegas",
+                desc: "Het walhalla van casino's.",
+                missions: [
+                    { id: 0, title: "Versla Casino Manager Duke", buyIn: 4000, reward: 10000, repReward: 200 },
+                    { id: 1, title: "Versla High-Roller Marco", buyIn: 8000, reward: 20000, repReward: 400 }
+                ],
+                tournament: { title: "Godfather Grand Finale (Don Salvatore)", buyIn: 15000, reward: 55000, repReward: 1000 }
+            }
+        ];
+
+        const suits = ['♠', '♥', '♦', '♣'];
+        const values = [
+            { name: '2', rank: 2 }, { name: '3', rank: 3 }, { name: '4', rank: 4 },
+            { name: '5', rank: 5 }, { name: '6', rank: 6 }, { name: '7', rank: 7 },
+            { name: '8', rank: 8 }, { name: '9', rank: 9 }, { name: '10', rank: 10 },
+            { name: 'J', rank: 11 }, { name: 'Q', rank: 12 }, { name: 'K', rank: 13 }, { name: 'A', rank: 14 }
+        ];
 
         function updateUI() {
-            document.getElementById('cash-display').innerText = cash;
-        }
-
-        function startLevel(levelId, title, cost, reward) {
-            activeLevelData = { id: levelId, title: title, reward: reward };
+            document.getElementById('cash-display').innerText = cash.toLocaleString();
+            document.getElementById('rep-display').innerText = reputation;
+            document.getElementById('city-display').innerText = cities[currentCityIndex].name;
             
-            document.getElementById('map-screen').style.display = 'none';
-            document.getElementById('game-screen').style.display = 'block';
-            document.getElementById('current-location-title').innerText = "Poker Duel: " + title;
-            
-            setupDuel();
+            let totalIncome = businesses.reduce((sum, b) => b.owned ? sum + b.income : sum, 0);
+            document.getElementById('income-display').innerText = totalIncome;
+
+            renderMap();
+            renderShop();
+            renderBusinesses();
         }
 
-        function returnToMap() {
-            document.getElementById('game-screen').style.display = 'none';
-            document.getElementById('map-screen').style.display = 'block';
+        function switchScreen(screenId, tabElement) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+
+            if (tabElement) {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                tabElement.classList.add('active');
+            }
         }
 
-        function setupDuel() {
-            const container = document.getElementById('player-cards');
+        function renderMap() {
+            const city = cities[currentCityIndex];
+            document.getElementById('city-title').innerText = `${city.name} (${currentCityIndex + 1}/3)`;
+            document.getElementById('city-desc').innerText = city.desc;
+
+            let container = document.getElementById('missions-container');
             container.innerHTML = '';
-            document.getElementById('battle-log').innerText = "Kies je speelstrategie tegen de huisbaas:";
 
-            const actions = [
-                { name: "Bluffen", power: 70, text: "Alles op alles" },
-                { name: "All-In", power: 50, text: "Grote gok" },
-                { name: "Fold / Check", power: 30, text: "Voorzichtig spel" }
-            ];
+            city.missions.forEach((m, idx) => {
+                let isUnlocked = (idx === 0) || (missionProgress[idx - 1] === 1);
+                let isCompleted = missionProgress[idx] === 1;
 
-            actions.forEach(act => {
                 let card = document.createElement('div');
-                card.className = 'mafia-card';
-                card.innerHTML = `<span>${act.name}</span><span style="font-size:0.75rem; color:var(--gold);">${act.text}</span>`;
-                card.onclick = () => playCard(act);
+                card.className = `level-card ${isUnlocked ? 'unlocked' : 'locked'}`;
+                card.innerHTML = `
+                    <div>
+                        <strong>${m.title}</strong>
+                        <div style="font-size: 0.75rem; color: #aaa;">Inzet: $${m.buyIn} | Winst: $${m.reward} (+${m.repReward} ⭐)</div>
+                    </div>
+                    ${isCompleted ? '<span style="color:#2ecc71; font-size:0.8rem; font-weight:bold;">✔ Verslagen</span>' : 
+                      isUnlocked ? `<button onclick="startMatch(${idx}, false)">Vecht</button>` : '<span style="font-size:0.8rem;">🔒 Slot</span>'}
+                `;
+                container.appendChild(card);
+            });
+
+            let allGangstersBeaten = missionProgress.every(p => p === 1);
+            let tournamentCompleted = missionProgress.length > 2 && missionProgress[2] === 1;
+
+            let tCard = document.createElement('div');
+            tCard.className = `level-card tournament-card ${allGangstersBeaten ? 'unlocked' : 'locked'}`;
+            tCard.innerHTML = `
+                <div>
+                    <strong style="color: var(--gold);">🏆 ${city.tournament.title}</strong>
+                    <div style="font-size: 0.75rem; color: #aaa;">Inzet: $${city.tournament.buyIn} | Hoofdprijs: $${city.tournament.reward}</div>
+                </div>
+                ${tournamentCompleted ? '<span style="color:#2ecc71; font-size:0.8rem; font-weight:bold;">✔ Gewonnen</span>' :
+                  allGangstersBeaten ? `<button onclick="startMatch(99, true)">Toernooi</button>` : '<span style="font-size:0.8rem;">🔒 Gangsters eerst</span>'}
+            `;
+            container.appendChild(tCard);
+
+            let travelBtn = document.getElementById('travel-btn');
+            if (tournamentCompleted && currentCityIndex < cities.length - 1) {
+                travelBtn.style.display = 'inline-block';
+            } else {
+                travelBtn.style.display = 'none';
+            }
+        }
+
+        function renderShop() {
+            let container = document.getElementById('shop-container');
+            container.innerHTML = '';
+
+            items.forEach(item => {
+                let card = document.createElement('div');
+                card.className = 'shop-card';
+                card.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong> <span style="font-size:0.75rem; color:var(--gold);">(${item.type})</span>
+                        <div style="font-size: 0.75rem; color: #aaa;">+${item.repBonus} Reputatie ⭐</div>
+                    </div>
+                    ${item.owned ? '<span style="color:#2ecc71; font-size:0.8rem; font-weight:bold;">In Bezit</span>' : 
+                      `<button onclick="buyItem(${item.id})">$${item.cost}</button>`}
+                `;
                 container.appendChild(card);
             });
         }
 
-        function playCard(action) {
-            let bossResistance = Math.floor(Math.random() * 60) + 20;
-            let log = document.getElementById('battle-log');
+        function renderBusinesses() {
+            let container = document.getElementById('business-container');
+            container.innerHTML = '';
 
-            if (action.power >= bossResistance) {
-                log.innerHTML = `✅ Gewonnen! Je ${action.name.toLowerCase()} pakte de pot! Wijk overgenomen!`;
-                cash += activeLevelData.reward;
+            businesses.forEach(b => {
+                let card = document.createElement('div');
+                card.className = 'business-card';
+                card.innerHTML = `
+                    <div>
+                        <strong>${b.name}</strong>
+                        <div style="font-size: 0.75rem; color: #aaa;">Levert: $${b.income} / minuut</div>
+                    </div>
+                    ${b.owned ? '<span style="color:#2ecc71; font-size:0.8rem; font-weight:bold;">Gekocht</span>' : 
+                      `<button onclick="buyBusiness(${b.id})">Koop $${b.cost}</button>`}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function buyItem(id) {
+            let item = items.find(i => i.id === id);
+            if (cash >= item.cost) {
+                cash -= item.cost;
+                item.owned = true;
+                reputation += item.repBonus;
+                checkReputationRewards();
                 updateUI();
-
-                if (activeLevelData.id === 1 && currentLevelUnlocked < 2) {
-                    currentLevelUnlocked = 2;
-                    let l2 = document.getElementById('level-2-card');
-                    l2.classList.remove('locked');
-                    l2.classList.add('unlocked');
-                    l2.setAttribute('onclick', "startLevel(2, 'The Docks Poker Club', 300, 150)");
-                    l2.querySelector('span').outerHTML = '<button>Overnemen</button>';
-                } else if (activeLevelData.id === 2 && currentLevelUnlocked < 3) {
-                    currentLevelUnlocked = 3;
-                    let l3 = document.getElementById('level-3-card');
-                    l3.classList.remove('locked');
-                    l3.classList.add('unlocked');
-                    l3.setAttribute('onclick', "startLevel(3, 'Downtown Casino Royale', 1000, 500)");
-                    l3.querySelector('span').outerHTML = '<button>Overnemen</button>';
-                }
-
-                setTimeout(returnToMap, 2000);
+                alert(`Je hebt de ${item.name} gekocht! Je reputatie is gestegen.`);
             } else {
-                log.innerHTML = `❌ Verloren! De baas zag door je ${action.name.toLowerCase()} heen. Probeer opnieuw!`;
+                alert("Niet genoeg cash!");
             }
         }
 
-        function buyCash(amount) {
-            alert(`[In-App Aankoop Simulator]\nJe hebt succesvol $${amount} zwarte markt cash gekocht!`);
-            cash += amount;
-            updateUI();
+        function buyBusiness(id) {
+            let b = businesses.find(item => item.id === id);
+            if (cash >= b.cost) {
+                cash -= b.cost;
+                b.owned = true;
+                updateUI();
+                alert(`Gefeliciteerd! Je bent nu eigenaar van de ${b.name}. Deze genereert nu cashflow.`);
+            } else {
+                alert("Niet genoeg cash om dit bedrijf over te nemen!");
+            }
         }
 
-        function watchAd() {
-            alert(`[Advertentie Simulator]\nBekijkt korte video van de maffia-bank...\nJe ontvangt $100 lening!`);
-            cash += 100;
-            updateUI();
+        function checkReputationRewards() {
+            if (reputation >= 150 && reputation < 165) {
+                alert("🏆 Milestones Bonus! Door je hoge reputatie krijg je een respect-bonus van $500 van onderdanen!");
+                cash += 500;
+            } else if (reputation >= 500 && reputation < 520) {
+                alert("🏆 Maffia Top-Tier Bonus! Je bent nu gevreesd in het hele land. Ontvang $2.500 onderwereld subsidie!");
+                cash += 2500;
+            }
         }
+
+        // Cashflow timer (elke 60 seconden geld erbij)
+        setInterval(() => {
+            let totalIncome = businesses.reduce((sum, b) => b.owned ? sum + b.income : sum, 0);
+            if (totalIncome > 0) {
+                cash += totalIncome;
+                updateUI();
+            }
+        }, 60000);
+
+        function startMatch(missionIdx, isTournament) {
+            let city = cities[currentCityIndex];
+            activeMission = isTournament ? city.tournament : city.missions[missionIdx];
+            activeMission.isTournament = isTournament;
+            activeMission.idx = missionIdx;
+
+            if (cash < activeMission.buyIn) {
+                alert("Je hebt niet genoeg cash om deze inzet te betalen!");
+                return;
+            }
+
+            switchScreen('game-screen', null);
+            document.getElementById('table-title').innerText = activeMission.title;
+            document.getElementById('opponent-title').innerText = isTournament ? "Stadsbaas (Tegenstander)" : "Gangster";
+
+            resetTable();
+        }
+
+        function resetTable() {
+            document.getElementById('dealer-cards').innerHTML = '';
+            document.getElementById('player-cards').innerHTML = '';
+            document.getElementById('dealer-hand-name').innerText = 'Klaar om te delen';
+            document.getElementById('player-hand-name').innerText = '-';
+            document.getElementById('battle-log').innerText = `Inzet: $${activeMission.buyIn}. Klik op 'Speel Hand'!`;
+            document.getElementById('deal-btn').style.display = 'inline-block';
+            document.getElementById('back-btn').style.display = 'none';
+        }
+
+        function getRandomCard() {
+            const suit = suits[Math.floor(Math.random() * suits.length)];
+            const value = values[Math.floor(Math.random() * values.length)];
+            return { suit, ...value };
+        }
+
+        function getHandScore(cards) {
+            cards.sort((a, b) => b.rank - a.rank);
+            const ranks = cards.map(c => c.rank);
+            const suitsList = cards.map(c => c.suit);
+
+            const isFlush = suitsList[0] === suitsList[1];
+            const isStraight = (ranks[0] - ranks[1] === 1);
+
+            const counts = {};
+            ranks.forEach(r => counts[r] = (counts[r] || 0) + 1);
+            const countVals = Object.values(counts).sort((a, b) => b - a);
+
+            if (isFlush && isStraight) return { score: 800, name: "Straight Flush!" };
+            if (countVals[0] === 4) return { score: 700, name: "Four of a Kind" };
+            if (countVals[0] === 3 && countVals[1] === 2) return { score: 600, name: "Full House" };
+            if (isFlush) return { score: 500, name: "Flush" };
+            if (isStraight) return { score: 400, name: "Straight" };
+            if (countVals[0] === 3) return { score: 300, name: "Three of a Kind" };
+            if (countVals[0] === 2 && countVals[1] === 2) return { score: 200, name: "Two Pair" };
+            if (countVals[0] === 2) return { score: 100, name: "One Pair" };
+            
+            return { score: ranks[0], name: `High Card (${cards[0].name})` };
+        }
+
+        function renderCardToDOM(card, containerId) {
+            const container = document.getElementById(containerId);
+            const isRed = card.suit === '♥' || card.suit === '♦';
+            
+            const cardDiv = document.createElement('div');
+            cardDiv.className = `poker-card ${isRed ? 'red' : ''}`;
+            cardDiv.innerHTML = `
+                <div class="card-top">${card.name}<br>${card.suit}</div>
+                <div class="card-center">${card.suit}</div>
+                <div class="card-bottom">${card.name}<br>${card.suit}</div>
+            `;
+            container.appendChild(cardDiv);
+        }
+
+        function resolvePokerMatch() {
+            cash -= activeMission.buyIn;
+            updateUI();
+
+            document.getElementById('dealer-cards').innerHTML = '';
+            document.getElementById('player-cards').innerHTML = '';
+
+            const playerHand = [getRandomCard(), getRandomCard()];
+            const dealerHand = [getRandomCard(), getRandomCard()];
+
+            playerHand.forEach(c => renderCardToDOM(c, 'player-cards'));
+            const pEval = getHandScore(playerHand);
+            document.getElementById('player-hand-name').innerText = pEval.name;
+
+            dealerHand.forEach(c => renderCardToDOM(c, 'dealer-cards'));
+            const dEval = getHandScore(dealerHand);
+            document.getElementById('dealer-hand-name').innerText = dEval.name;
+
+            let log = document.getElementById('battle-log');
+            if (pEval.score > dEval.score) {
+                log.innerHTML = `✅ <strong>Gewonnen!</strong> Je pokerhand versloeg de rivaal!`;
+                cash += activeMission.reward;
+                reputation += activeMission.repReward;
+                checkReputationRewards();
+                updateUI();
+
+                if (activeMission.isTournament) {
+                    missionProgress[2] = 1;
+                } else {
+                    missionProgress[activeMission.idx] = 1;
+                }
+            } else if (pEval.score < dEval.score) {
+                log.innerHTML = `❌ <strong>Verloren!</strong> De rivaal had een betere hand (${dEval.name}). Inzet kwijt!`;
+            } else {
+                log.innerHTML = `🤝 <strong>Gelijkspel!</strong> Je krijgt je inzet terug.`;
+                cash += activeMission.buyIn;
+                updateUI();
+            }
+
+            document.getElementById('deal-btn').style.display = 'none';
+            document.getElementById('back-btn').style.display = 'inline-block';
+        }
+
+        function travelToNextCity() {
+            if (currentCityIndex < cities.length - 1) {
+                currentCityIndex++;
+                missionProgress = [0, 0];
+                updateUI();
+                alert(`Welkom in ${cities[currentCityIndex].name}! Tijd om nieuwe territoria te veroveren.`);
+            }
+        }
+
+        updateUI();
     </script>
 </body>
 </html>
-
